@@ -3,9 +3,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "reusable-ai-template"
+name = "automatic-differentiation-engine"
 version = "0.1.0"
-description = "A reusable Python project template for AI engineering projects"
+description = "A from-scratch scalar automatic-differentiation engine for understanding computational graphs, the chain rule, and backpropagation"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -16,8 +16,16 @@ dev = [
     "pre-commit",
 ]
 
+validation = [
+    "torch",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]

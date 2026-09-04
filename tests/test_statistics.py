@@ -1,6 +1,6 @@
 import pytest
 
-from ai_template.statistics import calculate_mean
+from autodiff_engine.statistics import calculate_mean
 
 
 def test_calculate_mean() -> None:
