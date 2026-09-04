@@ -42,3 +42,23 @@ class Value:
 
     def __radd__(self, other: float) -> Value:
         return self + other
+
+    def __mul__(self, other: Value | float) -> Value:
+        if not isinstance(other, Value):
+            other = Value(other)
+
+        out = Value(
+            self.data * other.data,
+            (self, other),
+            "*",
+        )
+
+        def _backward() -> None:
+            self.grad += other.data * out.grad
+            other.grad += self.data * out.grad
+
+        out._backward = _backward
+        return out
+
+    def __rmul__(self, other: float) -> Value:
+        return self * other
