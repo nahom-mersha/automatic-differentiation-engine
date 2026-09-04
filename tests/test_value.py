@@ -46,3 +46,39 @@ def test_reflected_addition_with_python_number() -> None:
     result = 3 + a
 
     assert result.data == 5.0
+
+
+def test_multiplication_computes_forward_value_and_parents() -> None:
+    a = Value(2.0)
+    b = Value(3.0)
+
+    result = a * b
+
+    assert result.data == 6.0
+    assert result._op == "*"
+    assert result._prev == {a, b}
+
+
+def test_multiplication_backward_rule_uses_other_operand() -> None:
+    a = Value(2.0)
+    b = Value(3.0)
+
+    result = a * b
+    result.grad = 1.0
+
+    result._backward()
+
+    assert a.grad == 3.0
+    assert b.grad == 2.0
+
+
+def test_multiplication_with_python_number() -> None:
+    a = Value(2.0)
+
+    assert (a * 3).data == 6.0
+
+
+def test_reflected_multiplication_with_python_number() -> None:
+    a = Value(2.0)
+
+    assert (3 * a).data == 6.0
