@@ -75,3 +75,18 @@ class Value:
 
         out._backward = _backward
         return out
+
+    def __neg__(self) -> Value:
+        return self * -1
+
+    def __sub__(self, other: Value | float) -> Value:
+        return self + (-other)
+
+    def __rsub__(self, other: float) -> Value:
+        return other + (-self)
+
+    def __truediv__(self, other: Value | float) -> Value:
+        return self * other**-1
+
+    def __rtruediv__(self, other: float) -> Value:
+        return other * self**-1

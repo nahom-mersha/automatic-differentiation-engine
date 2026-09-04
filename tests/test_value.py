@@ -115,3 +115,40 @@ def test_power_with_fractional_exponent() -> None:
 
     assert result.data == 2.0
     assert a.grad == 0.25
+
+
+def test_negation() -> None:
+    a = Value(3.0)
+
+    result = -a
+    result.grad = 1.0
+    result._backward()
+
+    assert result.data == -3.0
+    assert a.grad == -1.0
+
+
+def test_subtraction() -> None:
+    a = Value(5.0)
+    b = Value(2.0)
+
+    result = a - b
+
+    assert result.data == 3.0
+
+
+def test_reflected_subtraction() -> None:
+    a = Value(2.0)
+
+    result = 5 - a
+
+    assert result.data == 3.0
+
+
+def test_division() -> None:
+    a = Value(6.0)
+    b = Value(2.0)
+
+    result = a / b
+
+    assert result.data == 3.0
