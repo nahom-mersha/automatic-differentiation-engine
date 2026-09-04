@@ -2,11 +2,21 @@
 
 A from-scratch scalar automatic-differentiation engine for understanding computational graphs, the chain rule, and reverse-mode backpropagation.
 
-The project will represent scalar values, record how they were computed, and automatically calculate gradients through the resulting computational graph.
+The project represents scalar values, records how they were computed, and automatically calculates gradients through the resulting computational graph.
 
 ## AI-assisted learning
 
 This is an AI-assisted learning project. I direct the work, review and test the implementation, and document the concepts I learn throughout the project.
+
+## Source of inspiration
+
+This project is independently implemented for learning, but it is strongly inspired by Andrej Karpathy's educational automatic-differentiation project, [`micrograd`](https://github.com/karpathy/micrograd).
+
+The main learning resource is Karpathy's lecture:
+
+[The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0)
+
+The project follows the same central learning idea: represent scalar values as nodes, record the operations that produced them, attach local backward rules, and use the chain rule to propagate gradients through a computational graph. The implementation, tests, explanations, and validation in this repository are my own Project 7 work within my AI Engineering roadmap, informed by Karpathy’s micrograd as a learning reference.
 
 ## Planned Features
 
