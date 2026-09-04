@@ -82,3 +82,36 @@ def test_reflected_multiplication_with_python_number() -> None:
     a = Value(2.0)
 
     assert (3 * a).data == 6.0
+
+
+def test_power_computes_forward_value_and_parent() -> None:
+    a = Value(3.0)
+
+    result = a**2
+
+    assert result.data == 9.0
+    assert result._op == "**2"
+    assert result._prev == {a}
+
+
+def test_power_backward_rule_uses_power_rule() -> None:
+    a = Value(3.0)
+
+    result = a**2
+    result.grad = 1.0
+
+    result._backward()
+
+    assert a.grad == 6.0
+
+
+def test_power_with_fractional_exponent() -> None:
+    a = Value(4.0)
+
+    result = a**0.5
+    result.grad = 1.0
+
+    result._backward()
+
+    assert result.data == 2.0
+    assert a.grad == 0.25
