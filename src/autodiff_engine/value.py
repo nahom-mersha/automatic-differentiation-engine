@@ -62,3 +62,16 @@ class Value:
 
     def __rmul__(self, other: float) -> Value:
         return self * other
+
+    def __pow__(self, exponent: float) -> Value:
+        out = Value(
+            self.data**exponent,
+            (self,),
+            f"**{exponent}",
+        )
+
+        def _backward() -> None:
+            self.grad += exponent * self.data ** (exponent - 1) * out.grad
+
+        out._backward = _backward
+        return out
