@@ -225,3 +225,26 @@ def test_topological_order_visits_shared_nodes_once() -> None:
 
     assert order.count(a) == 1
     assert order[-1] is result
+
+
+def test_backward_on_linear_expression() -> None:
+    x = Value(2.0)
+    w = Value(3.0)
+    b = Value(1.0)
+
+    y = w * x + b
+    y.backward()
+
+    assert y.data == 7.0
+    assert x.grad == 3.0
+    assert w.grad == 2.0
+    assert b.grad == 1.0
+
+
+def test_backward_accumulates_shared_node_gradients() -> None:
+    x = Value(3.0)
+
+    y = x * x + x
+    y.backward()
+
+    assert x.grad == 7.0
