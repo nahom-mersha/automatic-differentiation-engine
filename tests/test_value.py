@@ -202,3 +202,26 @@ def test_tanh_at_one() -> None:
 
     assert math.isclose(result.data, math.tanh(1.0))
     assert math.isclose(a.grad, expected)
+
+
+def test_topological_order_places_parents_before_children() -> None:
+    a = Value(2.0)
+    b = Value(3.0)
+    c = a + b
+    d = c * a
+
+    order = d._build_topological_order()
+
+    assert order.index(a) < order.index(c)
+    assert order.index(b) < order.index(c)
+    assert order.index(c) < order.index(d)
+
+
+def test_topological_order_visits_shared_nodes_once() -> None:
+    a = Value(2.0)
+    result = a * a + a
+
+    order = result._build_topological_order()
+
+    assert order.count(a) == 1
+    assert order[-1] is result

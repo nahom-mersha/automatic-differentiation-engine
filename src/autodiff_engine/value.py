@@ -119,3 +119,21 @@ class Value:
 
         out._backward = _backward
         return out
+
+    def _build_topological_order(self) -> list[Value]:
+        topological_order: list[Value] = []
+        visited: set[Value] = set()
+
+        def build(node: Value) -> None:
+            if node in visited:
+                return
+
+            visited.add(node)
+
+            topological_order.append(node)
+
+            for parent in node._prev:
+                build(parent)
+
+        build(self)
+        return topological_order
