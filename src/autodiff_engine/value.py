@@ -149,3 +149,7 @@ class Value:
     def zero_grad(self) -> None:
         for node in self._build_topological_order():
             node.grad = 0.0
+
+
+def numerical_derivative(function, x: float, epsilon: float = 1e-6) -> float:
+    return (function(x + epsilon) - function(x - epsilon)) / (2 * epsilon)

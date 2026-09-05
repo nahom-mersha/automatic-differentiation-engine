@@ -1,6 +1,8 @@
 import math
 
-from autodiff_engine.value import Value
+import pytest
+
+from autodiff_engine.value import Value, numerical_derivative
 
 
 def test_value_stores_data_and_initial_gradient() -> None:
@@ -261,3 +263,18 @@ def test_zero_grad_resets_reachable_nodes() -> None:
 
     assert y.grad == 0.0
     assert x.grad == 0.0
+
+
+def test_finite_difference_gradient() -> None:
+    def function(x: float) -> float:
+        value = Value(x)
+        result = (value * value + 2 * value).tanh()
+        return result.data
+
+    x = Value(1.5)
+    result = (x * x + 2 * x).tanh()
+    result.backward()
+
+    numerical_gradient = numerical_derivative(function, 1.5)
+
+    assert x.grad == pytest.approx(numerical_gradient, rel=1e-5, abs=1e-5)
