@@ -130,10 +130,10 @@ class Value:
 
             visited.add(node)
 
-            topological_order.append(node)
-
             for parent in node._prev:
                 build(parent)
+
+            topological_order.append(node)
 
         build(self)
         return topological_order
