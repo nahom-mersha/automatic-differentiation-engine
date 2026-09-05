@@ -1,3 +1,5 @@
+import math
+
 from autodiff_engine.value import Value
 
 
@@ -174,3 +176,29 @@ def test_relu_negative_value() -> None:
 
     assert result.data == 0.0
     assert a.grad == 0.0
+
+
+def test_tanh_forward_and_backward() -> None:
+    a = Value(0.0)
+
+    result = a.tanh()
+    result.grad = 1.0
+
+    result._backward()
+
+    assert result.data == 0.0
+    assert a.grad == 1.0
+
+
+def test_tanh_at_one() -> None:
+    a = Value(1.0)
+
+    result = a.tanh()
+    result.grad = 1.0
+
+    result._backward()
+
+    expected = 1.0 - math.tanh(1.0) ** 2
+
+    assert math.isclose(result.data, math.tanh(1.0))
+    assert math.isclose(a.grad, expected)

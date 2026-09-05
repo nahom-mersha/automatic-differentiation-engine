@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from collections.abc import Callable
 
 
@@ -100,6 +101,20 @@ class Value:
 
         def _backward() -> None:
             local_derivative = 1.0 if self.data > 0 else 0.0
+            self.grad += local_derivative * out.grad
+
+        out._backward = _backward
+        return out
+
+    def tanh(self) -> Value:
+        out = Value(
+            math.tanh(self.data),
+            (self,),
+            "tanh",
+        )
+
+        def _backward() -> None:
+            local_derivative = 1.0 - out.data**2
             self.grad += local_derivative * out.grad
 
         out._backward = _backward
