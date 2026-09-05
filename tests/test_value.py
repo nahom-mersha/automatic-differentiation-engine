@@ -152,3 +152,25 @@ def test_division() -> None:
     result = a / b
 
     assert result.data == 3.0
+
+
+def test_relu_positive_value() -> None:
+    a = Value(3.0)
+
+    result = a.relu()
+    result.grad = 1.0
+    result._backward()
+
+    assert result.data == 3.0
+    assert a.grad == 1.0
+
+
+def test_relu_negative_value() -> None:
+    a = Value(-3.0)
+
+    result = a.relu()
+    result.grad = 1.0
+    result._backward()
+
+    assert result.data == 0.0
+    assert a.grad == 0.0

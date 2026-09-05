@@ -90,3 +90,17 @@ class Value:
 
     def __rtruediv__(self, other: float) -> Value:
         return other * self**-1
+
+    def relu(self) -> Value:
+        out = Value(
+            max(0.0, self.data),
+            (self,),
+            "ReLU",
+        )
+
+        def _backward() -> None:
+            local_derivative = 1.0 if self.data > 0 else 0.0
+            self.grad += local_derivative * out.grad
+
+        out._backward = _backward
+        return out
