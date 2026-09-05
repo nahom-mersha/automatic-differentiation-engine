@@ -145,3 +145,7 @@ class Value:
 
         for node in reversed(topological_order):
             node._backward()
+
+    def zero_grad(self) -> None:
+        for node in self._build_topological_order():
+            node.grad = 0.0

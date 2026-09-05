@@ -248,3 +248,16 @@ def test_backward_accumulates_shared_node_gradients() -> None:
     y.backward()
 
     assert x.grad == 7.0
+
+
+def test_zero_grad_resets_reachable_nodes() -> None:
+    x = Value(3.0)
+    y = x * x + x
+
+    y.backward()
+    assert x.grad == 7.0
+
+    y.zero_grad()
+
+    assert y.grad == 0.0
+    assert x.grad == 0.0
