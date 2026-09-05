@@ -137,3 +137,11 @@ class Value:
 
         build(self)
         return topological_order
+
+    def backward(self) -> None:
+        topological_order = self._build_topological_order()
+
+        self.grad = 1.0
+
+        for node in reversed(topological_order):
+            node._backward()
