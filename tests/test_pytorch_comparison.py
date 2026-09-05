@@ -1,7 +1,8 @@
 import pytest
-import torch
 
 from autodiff_engine.value import Value
+
+torch = pytest.importorskip("torch")
 
 
 def test_matches_pytorch_autograd() -> None:
